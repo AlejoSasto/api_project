@@ -20,7 +20,20 @@ class PersonaList(generics.ListCreateAPIView):
         if not personas:
             raise NotFound('No se encontraron personas.')  # Lanza una excepción si no se encuentran personas
         return Response({'success': True, 'detail': 'Listado de personas.', 'data': serializer.data}, status=status.HTTP_200_OK)  # Devuelve una respuesta con los datos serializados
+# Vista listar personas por id
 
+class PersonaListId(generics.ListCreateAPIView):
+    queryset = Persona.objects.all()  # Define el conjunto de consultas para obtener todas las personas
+    serializer_class = PersonaSerializer  # Define el serializador a utilizar
+
+    # Método GET para listar todas las personas
+    def get(self, request, pk):
+        personas = Persona.objects.filter(id=pk)  # Obtiene todas las personas
+        serializer = PersonaSerializer(personas, many=True)  # Serializa las personas
+        if not personas:
+            raise NotFound('No se encontraron personas.')  # Lanza una excepción si no se encuentran personas
+        return Response({'success': True, 'detail': 'Listado de personas.', 'data': serializer.data}, status=status.HTTP_200_OK)  # Devuelve una respuesta con los datos serializados
+    
 # Vista específica para crear personas
 class CrearPersona(generics.CreateAPIView):
     queryset = Persona.objects.all()  # Define el conjunto de consultas para obtener todas las personas

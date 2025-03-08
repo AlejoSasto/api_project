@@ -2,8 +2,8 @@
 from django.urls import path
 # Importa las vistas desde el módulo views de la aplicación actual
 from .views import (
-    PersonaList, PersonaByDocumento, ActualizarPersona,
-    TareaList, TareaByFecha, TareaByRangoFechas, TareaByPersona
+    PersonaList, PersonaListId, PersonaByDocumento, ActualizarPersona, 
+    TareaList, ActualizarTarea, TareaByFecha, TareaByRangoFechas, TareaByPersona
 )
 
 # Define la lista de patrones de URL para la aplicación 'api_app'
@@ -11,6 +11,8 @@ urlpatterns = [
     # Rutas para la gestión de personas
     # Lista de personas
     path('personas/', PersonaList.as_view(), name='persona-list'),
+    #Listar personas por id
+    path('personas/<int:pk>/', PersonaListId.as_view(), name='persona-por-id'),
     # Crear una nueva persona
     path('personas/crear/', PersonaList.as_view(), name='persona-crear'),
     # Actualizar una persona existente por su ID (pk)
@@ -23,6 +25,8 @@ urlpatterns = [
     path('tareas/', TareaList.as_view(), name='tarea-list'),
     # Crear una nueva tarea
     path('tareas/crear/', TareaList.as_view(), name='tarea-crear'),
+    # Actualizar una tarea existente por su ID (pk)
+    path('tareas/actualizar/<int:pk>/', ActualizarTarea.as_view(), name='tarea-actualizar'),
     # Obtener tareas por fecha específica
     path('tareas/fecha/<str:fecha>/', TareaByFecha.as_view(), name='tareas-por-fecha'),
     # Obtener tareas por un rango de fechas
